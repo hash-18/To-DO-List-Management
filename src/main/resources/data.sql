@@ -1,0 +1,2 @@
+INSERT INTO todo(ID, USER_NAME, NAME, DESCRIPTION, TARGET_DATE, DONE)
+values(101,'Mayank','AWS','Learn AWS', CURRENT_DATE(),false);

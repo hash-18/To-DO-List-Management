@@ -1,0 +1,123 @@
+
+@ResponseBody - To display the string as it is without resoving any views
+Added dependency to display jsps on tomcat server
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+
+
+logging.level.org.springframework=debug - To see what happened in behind, and why didn't jsp load
+
+Hello Controller -> at url "say-hello-jsp" handler -> sayHello.jsp shown
+(With the help of view resolver's prefix and suffix as configured in application.properties)
+------------------------------------------------------------------------------------------
+
+Login Controller and Views
+
+/login -> com.mac.myfirstwebapp.login.LoginController=login.jsp
+
+---------------------------------------------------------------------------------
+
+How does web works
+
+A -> Browser sends a request - HttpRequest
+B -> Server handles the request - Your Spring boot web app 
+C -> Server sends the response - HttpResponse
+
+To capture query Parameters - > @RequestParameter
+
+--------------------------------------------------------------------------------------------------
+
+TODOS
+
+The static keyword is used in Java to create class-level variables and methods that belong to the class itself rather than to any instance of the class.
+
+In the code you provided, the static keyword is used to declare the todos list as a class-level variable, meaning that it belongs to the TodoService class itself rather than to any instance of the class. This makes the todos list a shared variable that can be accessed and modified by all instances of the TodoService class.
+
+The static keyword is also used in the static block, which is a block of code that is executed when the class is first loaded into memory. In this case, the static block is used to initialize the todos list with some initial Todo objects.
+
+By using a static block to initialize the todos list, the program ensures that the list is created and populated with initial values before any instance of the TodoService class is created. This means that the todos list is ready to be used by any instance of the TodoService class as soon as the class is loaded into memory, without the need for any additional setup.
+
+--------------------------------------------------------------
+
+Add jstl dependencies to use them - jstl api dependency and jstl implementation dependencies
+
+<dependency>
+			<groupId>jakarta.servlet.jsp.jstl</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>glassfish-jstl</artifactId>
+		</dependency>	
+		
+Import wherever you want to use jstl - <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+		
+-------------------------------------------------------------------------------------------------------
+
+To make a model attribute available as a session - @SessionAttributes("userName")
+Add this on the controller where the value "userName" was added in the model and then add this on every controller where you want to use userName
+
+----------------------------------------------------------------------------------------------------
+
+Add bootstrap Webjars in Pom.xml
+
+<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>5.1.3</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>3.6.0</version>
+		</dependency>
+
+These are 3 things that we need touse in our jsp files		
+BOOTSTRAP CSS - /META-INF/resources/webjars/bootstrap/5.1.3/css/bootstrap.min.css
+BOOTSTRAP JS - /META-INF/resources/webjars/bootstrap/5.1.3/js/bootstrap.min.js
+JQUERY MIN JS - /META-INF/resources/webjars/jquery/3.6.0/jquery.min.js
+
+Whenever you're loading your webpage - css files should be loaded at the start itself right below head beginning.
+You can add using link tag. In href - location of your css file. and then rel="stylesheet" to say that it is css file
+Whenever you're using files from webjars - you can skip /META-INF/resources/ and directly start from webjars/bootstrap/5.1.3/css/bootstrap.min.css
+
+
+Remember - 
+Add CSS at the top just below the opening head tag
+Add js at the end just above the closing body tag
+
+When you'll load list-tods and check in Inspect's network tab - ALL
+You'll see list-todso is there and then
+bootstrap.min.js
+bootstrap.min.js
+jquery.min.js
+
+Because the first response that comes to browser is from list-todos. In content of list-todos - > browser sees that there is link for these files
+and thus it downloads all of these as well.
+-------
+
+<div class="container"> - o keep content well centred in a container
+
+	<table class="table"> - Bootstrap magic to format as a table
+	
+-------------
+<a href="add-todos" class="btn btn-success">Add Todos</a>
+Here  class="btn btn-success" - makes the button come in a container, stay highlighted
+
+--------------------------------------------
+Add dependency in POM file
+Establish 2-way FOrm Binding - via 
+	1. Default constructor POJO bean in model
+	Todo todo=new Todo(); //Whatever values we enter here is visble in the front in the form
+			  //First SIde Binding - From COntroller to the form
+	2. form:form method="post" modelAttribute="todo">
+	3.Model model, @Valid Todo todo, BindingResult result - //This "todo" should match the parameter in modelAttribute in form
+			  //Second side Binding - Whatever data is entered in the form is binded to the variable todo
+Form Validation - <form:errors path="description"/> - To show bean validation error method in front
